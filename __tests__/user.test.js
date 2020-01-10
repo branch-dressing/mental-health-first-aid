@@ -59,8 +59,25 @@ describe('app routes', () => {
           email: 'joel@joel.com',
           friendCode: expect.any(String),
           userName: 'joel',
+          passwordHash: expect.any(String),
           __v: 0
         });
       });
+  });
+
+  it.skip('throws an error if login with wrong email', async() => {
+    await User.create({
+      email: 'joel@joel.com',
+      userName: 'joel', 
+      password: '1234'
+    });
+
+    return request(app)
+      .post('/api/v1/auth/login')
+      .send({ email: 'invalid@joel.com', password: '1234' })
+      .then(res => expect(res.body).toEqual({
+        message: 'Invalid Email/Password',
+        status: 401
+      }));
   });
 });
