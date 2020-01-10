@@ -96,4 +96,27 @@ describe('app routes', () => {
         status: 401
       }));
   });
+
+  it('can verify if a user is logged in', async() => {
+    const user = await User.create({
+      email: 'joel@joel.com',
+      userName: 'joel', 
+      password: '1234'
+    });
+
+    const agent = request.agent(app);
+
+    await agent
+      .post('/api/v1/auth/login')
+      .send({ email: 'joel@joel.com', password: '1234' });
+
+    return agent
+      .get('/api/v1/auth/verify')
+      .then(res => expect(res.body).toEqual({
+        _id: user.id,
+        email: 'joel@joel.com',
+        userName: 'joel',
+        friendCode: expect.any(String),
+      }));
+  });
 });
