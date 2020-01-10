@@ -65,7 +65,7 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('throws an error if login with wrong email', async() => {
+  it('throws an error if login with wrong email', async() => {
     await User.create({
       email: 'joel@joel.com',
       userName: 'joel', 
@@ -75,6 +75,22 @@ describe('app routes', () => {
     return request(app)
       .post('/api/v1/auth/login')
       .send({ email: 'invalid@joel.com', password: '1234' })
+      .then(res => expect(res.body).toEqual({
+        message: 'Invalid Email/Password',
+        status: 401
+      }));
+  });
+
+  it('throws an error if login with wrong password', async() => {
+    await User.create({
+      email: 'joel@joel.com',
+      userName: 'joel', 
+      password: '1234'
+    });
+
+    return request(app)
+      .post('/api/v1/auth/login')
+      .send({ email: 'joel@joel.com', password: '4321' })
       .then(res => expect(res.body).toEqual({
         message: 'Invalid Email/Password',
         status: 401
