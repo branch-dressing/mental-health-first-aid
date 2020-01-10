@@ -39,4 +39,28 @@ describe('app routes', () => {
         });
       });
   });
+
+  it('can login a user', async() => {
+    await User.create({
+      email: 'joel@joel.com',
+      userName: 'joel', 
+      password: '1234',
+    });
+
+    return request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'joel@joel.com',
+        password: '1234',
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          email: 'joel@joel.com',
+          friendCode: expect.any(String),
+          userName: 'joel',
+          __v: 0
+        });
+      });
+  });
 });
