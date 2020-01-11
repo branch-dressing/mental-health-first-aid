@@ -5,8 +5,9 @@ const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const User = require('../lib/models/User');
+const Positive = require('../lib/models/Positive');
 
-describe('app routes', () => {
+describe('USER ROUTES', () => {
   beforeAll(() => {
     connect();
   });
@@ -118,5 +119,46 @@ describe('app routes', () => {
         userName: 'joel',
         friendCode: expect.any(String),
       }));
+  });
+
+  it('can delete a user', async() => {
+    const user = await User.create({
+      email: 'joel@joel.com',
+      userName: 'joel', 
+      password: '1234'
+    });
+
+    const agent = request.agent(app);
+
+    await Positive.create({
+      message: 'This is a test',
+      friendCode: user.friendCode,
+      author: 'joel',
+      tags: ['tag 1', 'tag 2']
+    });
+
+    await agent
+      .post('/api/v1/auth/login')
+      .send({ email: 'joel@joel.com', password: '1234' });
+
+    return agent
+      .delete(`/api/v1/auth/${user._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          positives: {
+            deletedCount: 1,
+            n: 1,
+            ok: 1
+          },
+          user: {
+            _id: user._id.toString(),
+            email: 'joel@joel.com',
+            userName: 'joel',
+            passwordHash: user.passwordHash,
+            friendCode: user.friendCode,
+            __v: 0
+          }        
+        });
+      });
   });
 });
