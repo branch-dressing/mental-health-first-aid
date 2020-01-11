@@ -77,6 +77,8 @@ describe('POSITIVE ROUTES', () => {
           user: userOne._id.toString(),
           author: 'Your friend',
           tags: ['wonderful'],
+          seen: false,
+          timestamp: expect.any(String),
           __v: 0
         });
       });
@@ -109,6 +111,8 @@ describe('POSITIVE ROUTES', () => {
           user: userOne._id.toString(),
           author: 'Your friend',
           tags: ['wonderful', 'tag2'],
+          seen: false,
+          timestamp: expect.any(String),
           __v: 0,
         },
         {
@@ -117,6 +121,8 @@ describe('POSITIVE ROUTES', () => {
           user: userOne._id.toString(),
           author: 'Joseph',
           tags: ['beautiful'],
+          seen: false,
+          timestamp: expect.any(String),
           __v: 0
         }]);
       });
@@ -141,6 +147,8 @@ describe('POSITIVE ROUTES', () => {
           user: userOne._id.toString(),
           author: 'Your friend',
           tags: ['wonderful', 'tag2'],
+          seen: false,
+          timestamp: expect.any(String),
           __v: 0,
         }]);
       });
@@ -166,6 +174,8 @@ describe('POSITIVE ROUTES', () => {
           user: userOne._id.toString(),
           author: 'Your friend',
           tags: ['wonderful', 'tag2', 'perfect'],
+          seen: false,
+          timestamp: expect.any(String),
           __v: 0,
         });
       });
@@ -190,6 +200,8 @@ describe('POSITIVE ROUTES', () => {
           user: userOne._id.toString(),
           author: 'Joseph',
           tags: ['beautiful'],
+          seen: false,
+          timestamp: expect.any(String),
           __v: 0
         });
       });
