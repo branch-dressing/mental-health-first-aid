@@ -110,6 +110,22 @@ describe('IMAGE ROUTES', () => {
           tags: ['dog', 'puppy'],
           __v: 0
         });
-      })
-  })
+      });
+  });
+
+  it('can get images by tag', async() => {
+    return agent
+      .get('/api/v1/images/tag/dog')
+      .then(res => {
+        expect(res.body).toEqual([{
+          _id: image._id.toString(),
+          name: 'Puppy',
+          url: 'www.puppy.com',
+          user: userOne._id.toString(),
+          description: 'a cute puppy',
+          tags: ['dog', 'puppy'],
+          __v: 0
+        }]);
+      });
+  });
 });

@@ -139,7 +139,7 @@ describe('POSITIVE ROUTES', () => {
       });
 
     return agent
-      .get(`/api/v1/positives/${positiveOne.tags[0]}`)
+      .get(`/api/v1/positives/tag/${positiveOne.tags[0]}`)
       .then(res => {
         expect(res.body).toEqual([{
           _id: expect.any(String),      
