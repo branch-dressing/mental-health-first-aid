@@ -1,18 +1,4 @@
 ## Models
-### User
-Desc: A user
-Contents:
--username
--passwordHash
--friendCode
-
-### liked things
-Description: users and non users can write things they like about you to remind the user that they are liked and of their positive qualities.
-Contents:
--a message
--a user the message corresponds to
--(optinal) who it is from
--tags
 
 ### photos
 Desc: Photos to calm or make happy. Possibly puppies, people close to you something that makes you laugh.
