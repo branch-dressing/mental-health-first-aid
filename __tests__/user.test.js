@@ -150,6 +150,11 @@ describe('USER ROUTES', () => {
             n: 1,
             ok: 1
           },
+          images: {
+            deletedCount: 0,
+            n: 0,
+            ok: 1
+          },
           user: {
             _id: user._id.toString(),
             email: 'joel@joel.com',

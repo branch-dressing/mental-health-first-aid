@@ -128,4 +128,41 @@ describe('IMAGE ROUTES', () => {
         }]);
       });
   });
+
+  it('can update an image', async() => {
+    return agent
+      .patch(`/api/v1/images/${image._id}`)
+      .send({
+        url: 'www.cute-puppy.com',
+        description: 'my favaorite cute puppy',
+        tags: 'cute'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: image._id.toString(),
+          name: 'Puppy',
+          user: userOne._id.toString(),
+          url: 'www.cute-puppy.com',
+          description: 'my favaorite cute puppy',
+          tags: ['dog', 'puppy', 'cute'],
+          __v: 0
+        });
+      });
+  });
+
+  it('can delete an image', async() => {
+    return agent
+      .delete(`/api/v1/images/${image._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: image._id.toString(),
+          name: 'Puppy',
+          user: userOne._id.toString(),
+          url: 'www.puppy.com',
+          description: 'a cute puppy',
+          tags: ['dog', 'puppy'],
+          __v: 0
+        });
+      });
+  });
 });
