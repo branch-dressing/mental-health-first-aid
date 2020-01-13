@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const Image = require('../lib/models/Image');
 const User = require('../lib/models/User');
 
-describe('IMAGE ROUTES', () => {
+describe.skip('IMAGE ROUTES', () => {
   beforeAll(() => {
     connect();
   });

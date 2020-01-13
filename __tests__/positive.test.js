@@ -181,7 +181,7 @@ describe('POSITIVE ROUTES', () => {
       });
   });
 
-  it('can delete a positive', async() => {
+  it.skip('can delete a positive', async() => {
     const agent = request.agent(app);
 
     await agent
