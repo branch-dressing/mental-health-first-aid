@@ -28,12 +28,15 @@ describe('POSITIVE ROUTES', () => {
       password: '123'
     });
 
-    positiveOne = await Positive.create({
-      message: 'You are wonderful',
-      friendCode: userOne.friendCode,
-      author: 'Your friend',
-      tags: ['wonderful', 'tag2']
-    });
+    positiveOne = await request(app)
+      .post('/api/v1/positives')
+      .send({
+        message: 'You are wonderful',
+        friendCode: userOne.friendCode,
+        author: 'Your friend',
+        tags: ['wonderful', 'tag2']
+      })
+      .then(res => res.body);
 
     userTwo = await User.create({
       email: 'dirt@dirt.com',
@@ -41,19 +44,24 @@ describe('POSITIVE ROUTES', () => {
       password: '456'
     });
 
-    await Positive.create({
-      message: 'You are a hard worker',
-      friendCode: userTwo.friendCode,
-      author: 'your student',
-      tags: ['work', 'dedicated']
-    });
+    await request(app)
+      .post('/api/v1/positives')
+      .send({
+        message: 'You are a hard worker',
+        friendCode: userTwo.friendCode,
+        author: 'your student',
+        tags: ['work', 'dedicated']
+      });
 
-    positiveThree = await Positive.create({
-      message: 'Hey beautiful',
-      friendCode: userOne.friendCode,
-      author: 'Joseph',
-      tags: ['beautiful']
-    });
+    positiveThree = await request(app)
+      .post('/api/v1/positives')
+      .send({
+        message: 'Hey beautiful',
+        friendCode: userOne.friendCode,
+        author: 'Joseph',
+        tags: ['beautiful']
+      })
+      .then(res => res.body);
 
   });
 
@@ -73,7 +81,7 @@ describe('POSITIVE ROUTES', () => {
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          message: 'You are wonderful',
+          message: expect.not.stringMatching('You are wonderful'),
           user: userOne._id.toString(),
           author: 'Your friend',
           tags: ['wonderful'],
@@ -170,7 +178,7 @@ describe('POSITIVE ROUTES', () => {
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),      
-          message: 'You are wonderful',
+          message: expect.not.stringMatching('You are wonderful'),
           user: userOne._id.toString(),
           author: 'Your friend',
           tags: ['wonderful', 'tag2', 'perfect'],
@@ -181,7 +189,7 @@ describe('POSITIVE ROUTES', () => {
       });
   });
 
-  it.skip('can delete a positive', async() => {
+  it('can delete a positive', async() => {
     const agent = request.agent(app);
 
     await agent
@@ -196,7 +204,7 @@ describe('POSITIVE ROUTES', () => {
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          message: 'Hey beautiful',
+          message: expect.not.stringMatching('Hey beautiful'),
           user: userOne._id.toString(),
           author: 'Joseph',
           tags: ['beautiful'],
