@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const User = require('../lib/models/User');
 const Positive = require('../lib/models/Positive');
 
-describe.skip('USER ROUTES', () => {
+describe('USER ROUTES', () => {
   beforeAll(() => {
     connect();
   });
@@ -27,6 +27,7 @@ describe.skip('USER ROUTES', () => {
         email: 'joel@joel.com',
         userName: 'joel', 
         password: '1234',
+        avatar: 'https://pbs.twimg.com/media/DhsRKlhUEAAc50O.jpg'
       })
       .then(res => {
         expect(res.header['set-cookie'][0]).toEqual(expect.stringContaining('session='));
@@ -34,6 +35,7 @@ describe.skip('USER ROUTES', () => {
           _id: expect.any(String),
           email: 'joel@joel.com',
           userName: 'joel',
+          avatar: 'https://pbs.twimg.com/media/DhsRKlhUEAAc50O.jpg',
           passwordHash: expect.any(String),
           friendCode: expect.any(String),
           __v: 0
@@ -46,6 +48,7 @@ describe.skip('USER ROUTES', () => {
       email: 'joel@joel.com',
       userName: 'joel', 
       password: '1234',
+      avatar: 'https://pbs.twimg.com/media/DhsRKlhUEAAc50O.jpg'
     });
 
     return request(app)
@@ -61,6 +64,7 @@ describe.skip('USER ROUTES', () => {
           friendCode: expect.any(String),
           userName: 'joel',
           passwordHash: expect.any(String),
+          avatar: 'https://pbs.twimg.com/media/DhsRKlhUEAAc50O.jpg',
           __v: 0
         });
       });
