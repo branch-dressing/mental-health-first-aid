@@ -173,7 +173,7 @@ describe('POSITIVE ROUTES', () => {
       });
 
     return agent
-      .patch(`/api/v1/positives/${positiveOne._id}`)
+      .patch(`/api/v1/positives/tag/${positiveOne._id}`)
       .send({ tags: 'perfect' })
       .then(res => {
         expect(res.body).toEqual({

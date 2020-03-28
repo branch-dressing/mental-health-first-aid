@@ -122,6 +122,8 @@ describe('USER ROUTES', () => {
         email: 'joel@joel.com',
         userName: 'joel',
         friendCode: expect.any(String),
+        __v: 0,
+        passwordHash: expect.any(String)
       }));
   });
 
