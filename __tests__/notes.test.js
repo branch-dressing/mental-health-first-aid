@@ -4,7 +4,6 @@ const request = require('supertest');
 const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
-const Note = require('../lib/models/Note');
 const User = require('../lib/models/User');
 
 describe('NOTE ROUTES', () => {
@@ -83,5 +82,51 @@ describe('NOTE ROUTES', () => {
       });
   });
 
+  it('can update a notes', async() => {
+    const agent = request.agent(app);
+
+    await agent
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'notesuser@notes.com',
+        password: '123',
+      });
+
+    return agent
+      .patch(`/api/v1/notes/${noteOne._id}`)
+      .send({ title: 'New title', text: 'Remember to Stretch' })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          userId: userOne._id.toString(),
+          title: expect.any(String),
+          text: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
+  it('can delete a notes', async() => {
+    const agent = request.agent(app);
+
+    await agent
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'notesuser@notes.com',
+        password: '123',
+      });
+
+    return agent
+      .del(`/api/v1/notes/${noteOne._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          userId: userOne._id.toString(),
+          title: expect.any(String),
+          text: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 
 });
