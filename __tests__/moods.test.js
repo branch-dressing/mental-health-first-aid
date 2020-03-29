@@ -6,7 +6,7 @@ const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const User = require('../lib/models/User');
 
-describe('NOTE ROUTES', () => {
+describe('MOODS ROUTES', () => {
   beforeAll(() => {
     connect();
   });
@@ -16,21 +16,21 @@ describe('NOTE ROUTES', () => {
   });
 
   let userOne;
-  let noteOne;
+  let moodOne;
 
   beforeEach(async() => {
     userOne = await User.create({
-      email: 'notesuser@notes.com',
-      userName: 'Notes',
+      email: 'moodsuser@moods.com',
+      userName: 'Moods',
       password: '123'
     });
 
-    noteOne = await request(app)
-      .post('/api/v1/notes')
+    moodOne = await request(app)
+      .post('/api/v1/moods')
       .send({
         userId: userOne._id,
-        title: 'This is a Note!',
-        text: 'Remember to breath.'
+        moodName: 'Anxious',
+        solution: [],
       })
       .then(res => res.body);
   
@@ -40,90 +40,120 @@ describe('NOTE ROUTES', () => {
     return mongoose.connection.close();
   });
 
-  it('can create a note', async() => {
+  it('can create a mood', async() => {
     return request(app)
-      .post('/api/v1/notes')
+      .post('/api/v1/moods')
       .send({
         userId: userOne._id,
-        title: 'This is a Note!',
-        text: 'Remember to breath.'
+        moodName: 'Anxious',
       })
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           userId: userOne._id.toString(),
-          title: expect.any(String),
-          text: expect.any(String),
+          moodName: 'Anxious',
+          solutions: [],
           __v: 0
         });
       });
   });
 
-  it('can get all your notes', async() => {
+  it('can get all your moods', async() => {
     const agent = request.agent(app);
 
     await agent
       .post('/api/v1/auth/login')
       .send({
-        email: 'notesuser@notes.com',
+        email: 'moodsuser@moods.com',
         password: '123',
       });
 
     return agent
-      .get('/api/v1/notes')
+      .get('/api/v1/moods')
       .then(res => {
         expect(res.body).toEqual([{
           _id: expect.any(String),
           userId: userOne._id.toString(),
-          title: 'This is a Note!',
-          text: 'Remember to breath.',
+          moodName: 'Anxious',
+          solutions: [],
           __v: 0
         }]);
       });
   });
 
-  it('can update a notes', async() => {
+  it('can update a moods', async() => {
     const agent = request.agent(app);
 
     await agent
       .post('/api/v1/auth/login')
       .send({
-        email: 'notesuser@notes.com',
+        email: 'moodsuser@moods.com',
         password: '123',
       });
 
     return agent
-      .patch(`/api/v1/notes/${noteOne._id}`)
-      .send({ title: 'New title', text: 'Remember to Stretch' })
+      .patch(`/api/v1/moods/${moodOne._id}`)
+      .send({ moodName: 'Depressed' })
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           userId: userOne._id.toString(),
-          title: expect.any(String),
-          text: expect.any(String),
+          solutions: [],
+          moodName: 'Depressed',
           __v: 0
         });
       });
   });
 
-  it('can delete a notes', async() => {
+  it('can update the solutions', async() => {
     const agent = request.agent(app);
 
     await agent
       .post('/api/v1/auth/login')
       .send({
-        email: 'notesuser@notes.com',
+        email: 'moodsuser@moods.com',
         password: '123',
       });
 
+    await agent
+      .patch(`/api/v1/moods/solution/${moodOne._id}`)
+      .send({ solutions: 'Drink water' })
+      .then(res => {
+        return res.body;
+      });
+
     return agent
-      .del(`/api/v1/notes/${noteOne._id}`)
+      .patch(`/api/v1/moods/solution/${moodOne._id}`)
+      .send({ solutions: 'Take slow breaths' })
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           userId: userOne._id.toString(),
-          title: expect.any(String),
-          text: expect.any(String),
+          solutions: ['Drink water', 'Take slow breaths'],
+          moodName: 'Anxious',
+          __v: 0
+        });
+      });
+  });
+
+  it('can delete a moods', async() => {
+    const agent = request.agent(app);
+
+    await agent
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'moodsuser@moods.com',
+        password: '123',
+      });
+
+    return agent
+      .del(`/api/v1/moods/${moodOne._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          userId: userOne._id.toString(),
+          moodName: 'Anxious',
+          solutions: [],
           __v: 0
         });
       });
