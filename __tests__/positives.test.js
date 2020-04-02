@@ -96,7 +96,7 @@ describe('POSITIVE ROUTES', () => {
     return request(app)
       .get('/api/v1/positives')
       .then(res => {
-        expect(res.body).toEqual({ message: 'jwt must be provided', status: 500 });
+        expect(res.body).toEqual({ message: 'jwt must be provided', status: 401 });
       });
   });
 

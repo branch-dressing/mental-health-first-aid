@@ -36,7 +36,6 @@ describe('USER ROUTES', () => {
           email: 'joel@joel.com',
           userName: 'joel',
           avatar: 'https://pbs.twimg.com/media/DhsRKlhUEAAc50O.jpg',
-          passwordHash: expect.any(String),
           newUser: true,
           friendCode: expect.any(String),
           __v: 0
@@ -65,7 +64,6 @@ describe('USER ROUTES', () => {
           friendCode: expect.any(String),
           userName: 'joel',
           newUser: true,
-          passwordHash: expect.any(String),
           avatar: 'https://pbs.twimg.com/media/DhsRKlhUEAAc50O.jpg',
           __v: 0
         });
@@ -124,9 +122,7 @@ describe('USER ROUTES', () => {
         email: 'joel@joel.com',
         userName: 'joel',
         newUser: true,
-        friendCode: expect.any(String),
-        __v: 0,
-        passwordHash: expect.any(String)
+        friendCode: expect.any(String)
       }));
   });
 
@@ -169,7 +165,6 @@ describe('USER ROUTES', () => {
             email: 'joel@joel.com',
             userName: 'joel',
             newUser: true,
-            passwordHash: user.passwordHash,
             friendCode: user.friendCode,
             __v: 0
           }        
