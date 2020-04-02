@@ -17,6 +17,7 @@ describe('MOODS ROUTES', () => {
 
   let userOne;
   let moodOne;
+  let agent;
 
   beforeEach(async() => {
     userOne = await User.create({
@@ -25,7 +26,16 @@ describe('MOODS ROUTES', () => {
       password: '123'
     });
 
-    moodOne = await request(app)
+    agent = request.agent(app);
+
+    await agent
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'moodsuser@moods.com',
+        password: '123',
+      });
+
+    moodOne = await agent
       .post('/api/v1/moods')
       .send({
         userId: userOne._id,
@@ -41,7 +51,7 @@ describe('MOODS ROUTES', () => {
   });
 
   it('can create a mood', async() => {
-    return request(app)
+    return agent
       .post('/api/v1/moods')
       .send({
         userId: userOne._id,
@@ -59,15 +69,6 @@ describe('MOODS ROUTES', () => {
   });
 
   it('can get all your moods', async() => {
-    const agent = request.agent(app);
-
-    await agent
-      .post('/api/v1/auth/login')
-      .send({
-        email: 'moodsuser@moods.com',
-        password: '123',
-      });
-
     return agent
       .get('/api/v1/moods')
       .then(res => {
@@ -82,15 +83,6 @@ describe('MOODS ROUTES', () => {
   });
 
   it('can update a moods', async() => {
-    const agent = request.agent(app);
-
-    await agent
-      .post('/api/v1/auth/login')
-      .send({
-        email: 'moodsuser@moods.com',
-        password: '123',
-      });
-
     return agent
       .patch(`/api/v1/moods/${moodOne._id}`)
       .send({ moodName: 'Depressed' })
@@ -106,15 +98,6 @@ describe('MOODS ROUTES', () => {
   });
 
   it('can update the solutions', async() => {
-    const agent = request.agent(app);
-
-    await agent
-      .post('/api/v1/auth/login')
-      .send({
-        email: 'moodsuser@moods.com',
-        password: '123',
-      });
-
     await agent
       .patch(`/api/v1/moods/solution/${moodOne._id}`)
       .send({ solutions: 'Drink water' })
@@ -137,15 +120,6 @@ describe('MOODS ROUTES', () => {
   });
 
   it('can delete a moods', async() => {
-    const agent = request.agent(app);
-
-    await agent
-      .post('/api/v1/auth/login')
-      .send({
-        email: 'moodsuser@moods.com',
-        password: '123',
-      });
-
     return agent
       .del(`/api/v1/moods/${moodOne._id}`)
       .then(res => {
