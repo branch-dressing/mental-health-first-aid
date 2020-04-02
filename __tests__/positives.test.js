@@ -4,7 +4,6 @@ const request = require('supertest');
 const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
-const Positive = require('../lib/models/Positive');
 const User = require('../lib/models/User');
 
 describe('POSITIVE ROUTES', () => {
