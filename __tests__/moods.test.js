@@ -23,7 +23,8 @@ describe('MOODS ROUTES', () => {
     userOne = await User.create({
       email: 'moodsuser@moods.com',
       userName: 'Moods',
-      password: '123'
+      password: '123',
+      newUser: true,
     });
 
     agent = request.agent(app);

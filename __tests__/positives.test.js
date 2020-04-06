@@ -24,7 +24,8 @@ describe('POSITIVE ROUTES', () => {
     userOne = await User.create({
       email: 'joel@joel.com',
       userName: 'Joel',
-      password: '123'
+      password: '123',
+      newUser: true,
     });
 
     positiveOne = await request(app)
@@ -40,7 +41,8 @@ describe('POSITIVE ROUTES', () => {
     userTwo = await User.create({
       email: 'dirt@dirt.com',
       userName: 'Dirt',
-      password: '456'
+      password: '456',
+      newUser: true
     });
 
     await request(app)
@@ -107,6 +109,9 @@ describe('POSITIVE ROUTES', () => {
       .send({
         email: 'joel@joel.com',
         password: '123',
+      })
+      .then(res => {
+        console.log(res.body);
       });
 
     return agent

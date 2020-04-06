@@ -27,6 +27,7 @@ describe('USER ROUTES', () => {
         email: 'joel@joel.com',
         userName: 'joel', 
         password: '1234',
+        newUser: true,
         avatar: 'https://pbs.twimg.com/media/DhsRKlhUEAAc50O.jpg'
       })
       .then(res => {
@@ -48,6 +49,7 @@ describe('USER ROUTES', () => {
       email: 'joel@joel.com',
       userName: 'joel', 
       password: '1234',
+      newUser: true,
       avatar: 'https://pbs.twimg.com/media/DhsRKlhUEAAc50O.jpg'
     });
 
@@ -74,7 +76,8 @@ describe('USER ROUTES', () => {
     await User.create({
       email: 'joel@joel.com',
       userName: 'joel', 
-      password: '1234'
+      password: '1234',
+      newUser: true
     });
 
     return request(app)
@@ -90,7 +93,8 @@ describe('USER ROUTES', () => {
     await User.create({
       email: 'joel@joel.com',
       userName: 'joel', 
-      password: '1234'
+      password: '1234',
+      newUser: true,
     });
 
     return request(app)
@@ -106,7 +110,8 @@ describe('USER ROUTES', () => {
     const user = await User.create({
       email: 'joel@joel.com',
       userName: 'joel', 
-      password: '1234'
+      password: '1234',
+      newUser: true
     });
 
     const agent = request.agent(app);
@@ -122,7 +127,8 @@ describe('USER ROUTES', () => {
         email: 'joel@joel.com',
         userName: 'joel',
         newUser: true,
-        friendCode: expect.any(String)
+        friendCode: expect.any(String),
+        __v: 0
       }));
   });
 
@@ -130,7 +136,8 @@ describe('USER ROUTES', () => {
     const user = await User.create({
       email: 'joel@joel.com',
       userName: 'joel', 
-      password: '1234'
+      password: '1234',
+      newUser: true
     });
 
     const agent = request.agent(app);
